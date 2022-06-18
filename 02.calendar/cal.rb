@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 puts(<<EOF)
       6月 2022         
 日 月 火 水 木 金 土  
