@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 require 'optparse'
 options = ARGV.getopts('y:')
-puts options["y"]
+input_year = options["y"]  # TODO: yオプションが指定されなかった場合の考慮が必要
 puts(<<EOF)
-      6月 2022         
+      6月 #{input_year}         
 日 月 火 水 木 金 土  
           1  2  3  4  
  5  6  7  8  9 10 11  
