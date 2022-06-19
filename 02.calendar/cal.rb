@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
+require 'optparse'
+options = ARGV.getopts('y:')
+puts options["y"]
 puts(<<EOF)
       6月 2022         
 日 月 火 水 木 金 土  
