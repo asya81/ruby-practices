@@ -10,7 +10,9 @@ current_year, current_month = today.year, today.month
 # コマンドラインからの指定がない場合、現在の年月を表示
 year = input_year.nil? ? current_year : input_year
 month = input_month.nil? ? current_month : input_month
-
+# 表示月の最終日
+last_day = Date.new(year, month, -1).day
+puts last_day
 puts(<<EOF)
       #{month}月 #{year}         
 日 月 火 水 木 金 土  
