@@ -12,15 +12,15 @@ year = input_year.nil? ? current_year : input_year
 month = input_month.nil? ? current_month : input_month
 # 表示月の最終日
 last_day = Date.new(year, month, -1).day
-puts last_day
+# 表示する日付
+dates = ""
+(1..last_day).each do |date|
+  dates += "#{date} "
+end
 puts(<<EOF)
       #{month}月 #{year}         
 日 月 火 水 木 金 土  
-          1  2  3  4  
- 5  6  7  8  9 10 11  
-12 13 14 15 16 17 18  
-19 20 21 22 23 24 25  
-26 27 28 29 30
+          #{dates}
 EOF
 
 # 出力結果のイメージ（yに2022、mに6を指定した場合）
