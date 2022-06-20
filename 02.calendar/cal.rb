@@ -1,11 +1,18 @@
 #!/usr/bin/env ruby
+require 'date'
 require 'optparse'
+# コマンドラインから受け取った年月
 options = ARGV.getopts('y:', 'm:')
-input_year = options["y"]  # TODO: yオプションが指定されなかった場合の考慮が必要
-input_month = options["m"]  # TODO: mオプションが指定されなかった場合の考慮が必要
+input_year, input_month = options["y"], options["m"]
+# 現在の年月
+today = Date.today
+current_year, current_month = today.year, today.month
+# コマンドラインからの指定がない場合、現在の年月を表示
+year = input_year.nil? ? current_year : input_year
+month = input_month.nil? ? current_month : input_month
 
 puts(<<EOF)
-      #{input_month}月 #{input_year}         
+      #{month}月 #{year}         
 日 月 火 水 木 金 土  
           1  2  3  4  
  5  6  7  8  9 10 11  
