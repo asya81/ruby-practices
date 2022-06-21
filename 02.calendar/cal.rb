@@ -15,7 +15,8 @@ last_day = Date.new(year, month, -1).day
 # 表示する日付
 dates = ""
 (1..last_day).each do |date|
-  dates += "#{sprintf("%2d ", date)}"
+  dates << "#{sprintf("%2d ", date)}"
+  dates << "\r\n" if Date.new(year, month, date).saturday?
 end
 puts(<<EOF)
       #{month}月 #{year}         
