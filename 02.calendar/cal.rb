@@ -15,7 +15,7 @@ last_day = Date.new(year, month, -1).day
 # 表示する日付
 dates = ""
 (1..last_day).each do |date|
-  dates += "#{date} "
+  dates += "#{sprintf("%2d ", date)}"
 end
 puts(<<EOF)
       #{month}月 #{year}         
