@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 require 'date'
 require 'optparse'
+# 1日分の半角スペースの数
+DEFAULT_SPACES = 3
 # コマンドラインから受け取った年月
 options = ARGV.getopts('y:', 'm:')
 input_year, input_month = options["y"], options["m"]
@@ -10,10 +12,12 @@ current_year, current_month = today.year, today.month
 # コマンドラインからの指定がない場合、現在の年月を表示
 year = input_year.nil? ? current_year : input_year.to_i
 month = input_month.nil? ? current_month : input_month.to_i
+# 第1週の先頭の余白
+first_week_spaces = "\s" * DEFAULT_SPACES * Date.new(year, month, 1).wday
 # 表示月の最終日
 last_day = Date.new(year, month, -1).day
 # 表示する日付
-dates = ""
+dates = first_week_spaces
 (1..last_day).each do |date|
   dates << "#{sprintf("%2d ", date)}"
   dates << "\r\n" if Date.new(year, month, date).saturday?
@@ -21,7 +25,7 @@ end
 puts(<<EOF)
       #{month}月 #{year}         
 日 月 火 水 木 金 土  
-          #{dates}
+#{dates}
 EOF
 
 # 出力結果のイメージ（yに2022、mに6を指定した場合）
