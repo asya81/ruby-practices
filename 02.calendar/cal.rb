@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
 require 'date'
 require 'optparse'
+# 年月の先頭のスペースの数
+HEADER_MARGIN_SPACES = 6
 # 1日分の半角スペースの数
-DEFAULT_SPACES = 3
+ONE_DAY_SPACES = 3
+MONTH_LABEL = "月"
+DAYS = "日 月 火 水 木 金 土"
 # コマンドラインから受け取った年月
 options = ARGV.getopts('y:', 'm:')
 input_year, input_month = options["y"], options["m"]
@@ -12,8 +16,10 @@ current_year, current_month = today.year, today.month
 # コマンドラインからの指定がない場合、現在の年月を表示
 year = input_year.nil? ? current_year : input_year.to_i
 month = input_month.nil? ? current_month : input_month.to_i
+# 年月の先頭の余白
+header_spaces = "\s" * HEADER_MARGIN_SPACES
 # 第1週の先頭の余白
-first_week_spaces = "\s" * DEFAULT_SPACES * Date.new(year, month, 1).wday
+first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(year, month, 1).wday
 # 表示月の最終日
 last_day = Date.new(year, month, -1).day
 # 表示する日付
@@ -23,16 +29,7 @@ dates = first_week_spaces
   dates << "\r\n" if Date.new(year, month, date).saturday?
 end
 puts(<<EOF)
-      #{month}月 #{year}         
-日 月 火 水 木 金 土  
+#{header_spaces}#{month}#{MONTH_LABEL}\s#{year}         
+#{DAYS}
 #{dates}
 EOF
-
-# 出力結果のイメージ（yに2022、mに6を指定した場合）
-#       6月 2022
-# 日 月 火 水 木 金 土
-#           1  2  3  4
-#  5  6  7  8  9 10 11
-# 12 13 14 15 16 17 18
-# 19 20 21 22 23 24 25
-# 26 27 28 29 30
