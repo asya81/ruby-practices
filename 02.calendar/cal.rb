@@ -11,9 +11,13 @@ DAYS = "日 月 火 水 木 金 土"
 begin
   # コマンドラインから受け取った年月
   options = ARGV.getopts('y:', 'm:')
-  input_year, input_month = options["y"], options["m"]
 rescue OptionParser::InvalidOption
-  puts "オプションには、 y（月）または m（月）のみ指定できます。"
+  puts "オプションには、 y（年）または m（月）のみ指定できます。"
+  return
+end
+input_year, input_month = options["y"], options["m"]
+if input_year.to_i <= 0
+  puts "y オプションには、正の整数を指定してください。"
   return
 end
 
