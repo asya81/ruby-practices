@@ -16,12 +16,12 @@ rescue OptionParser::InvalidOption
   return
 end
 input_year, input_month = options["y"], options["m"]
-if input_year.to_i <= 0
-  puts "y オプションには、正の整数を指定してください。"
+error_message = []
+error_message << "y オプションには、正の整数を指定してください。" if input_year.to_i <= 0
+error_message << "m オプションには、1〜12の整数を指定してください。" unless (1..12).cover?(input_month.to_i)
+unless error_message.empty?
+  puts error_message
   return
-end
-unless (1..12).cover?(input_month.to_i)
-  puts "m オプションには、1〜12の整数を指定してください。"
 end
 
 # 現在の年月
@@ -42,6 +42,8 @@ dates = first_week_spaces
   dates << "#{sprintf("%2d ", date)}"
   dates << "\r\n" if Date.new(year, month, date).saturday?
 end
+
+# カレンダーを出力
 puts(<<EOF)
 #{header_spaces}#{month}#{MONTH_LABEL}\s#{year}         
 #{DAYS}
