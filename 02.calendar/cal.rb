@@ -17,8 +17,8 @@ rescue OptionParser::InvalidOption
 end
 input_year, input_month = options["y"], options["m"]
 error_message = []
-error_message << "y オプションには、正の整数を指定してください。" if input_year.to_i <= 0
-error_message << "m オプションには、1〜12の整数を指定してください。" unless (1..12).cover?(input_month.to_i)
+error_message << "y オプションには、正の整数を指定してください。" if !input_year.nil? && input_year.to_i <= 0
+error_message << "m オプションには、1〜12の整数を指定してください。" unless input_month.nil? || (1..12).cover?(input_month.to_i)
 unless error_message.empty?
   puts error_message
   return
