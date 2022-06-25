@@ -20,6 +20,9 @@ if input_year.to_i <= 0
   puts "y オプションには、正の整数を指定してください。"
   return
 end
+unless (1..12).cover?(input_month.to_i)
+  puts "m オプションには、1〜12の整数を指定してください。"
+end
 
 # 現在の年月
 today = Date.today
