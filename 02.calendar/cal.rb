@@ -14,6 +14,9 @@ begin
 rescue OptionParser::InvalidOption
   puts "オプションには、 y（年）または m（月）のみ指定できます。"
   return
+rescue OptionParser::MissingArgument
+  puts "オプションの値を設定してください。"
+  return
 end
 input_year, input_month = options["y"], options["m"]
 error_message = []
