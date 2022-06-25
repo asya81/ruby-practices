@@ -7,9 +7,16 @@ HEADER_MARGIN_SPACES = 6
 ONE_DAY_SPACES = 3
 MONTH_LABEL = "月"
 DAYS = "日 月 火 水 木 金 土"
-# コマンドラインから受け取った年月
-options = ARGV.getopts('y:', 'm:')
-input_year, input_month = options["y"], options["m"]
+
+begin
+  # コマンドラインから受け取った年月
+  options = ARGV.getopts('y:', 'm:')
+  input_year, input_month = options["y"], options["m"]
+rescue OptionParser::InvalidOption
+  puts "オプションには、 y（月）または m（月）のみ指定できます。"
+  return
+end
+
 # 現在の年月
 today = Date.today
 current_year, current_month = today.year, today.month
