@@ -7,6 +7,9 @@ HEADER_MARGIN_SPACES = 6
 ONE_DAY_SPACES = 3
 MONTH_LABEL = "月"
 DAYS = "日 月 火 水 木 金 土"
+CHARACTER_COLOR_BLACK = "\e[30m"
+BACKGROUND_COLOR_WHITE = "\e[47m"
+RESET_CODE = "\e[0m"
 
 begin
   # コマンドラインから受け取った年月
@@ -29,7 +32,7 @@ end
 
 # 現在の年月
 today = Date.today
-current_year, current_month = today.year, today.month
+current_year, current_month, current_day = today.year, today.month, today.day
 # コマンドラインからの指定がない場合、現在の年月を表示
 year = input_year.nil? ? current_year : input_year.to_i
 month = input_month.nil? ? current_month : input_month.to_i
@@ -42,7 +45,10 @@ last_day = Date.new(year, month, -1).day
 # 表示する日付
 dates = first_week_spaces
 (1..last_day).each do |date|
-  dates << "#{sprintf("%2d ", date)}"
+  dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if date == current_day.to_i
+  dates << sprintf("%2d", date)
+  dates << RESET_CODE if date == current_day.to_i
+  dates << "\s"
   dates << "\r\n" if Date.new(year, month, date).saturday?
 end
 
