@@ -54,7 +54,7 @@ def generate_calendar(year:, month:, day:)
   # 表示月の最終日
   last_day = Date.new(year, month, -1).day
   # 表示する日付
-  dates = first_week_spaces
+  dates = ""
   (1..last_day).each do |date|
     dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if date == day
     dates << sprintf("%2d", date)
@@ -65,7 +65,7 @@ def generate_calendar(year:, month:, day:)
   <<-EOF
   #{header_spaces}#{month}#{MONTH_LABEL}\s#{year}         
   #{DAYS}
-  #{dates}
+  #{first_week_spaces}#{dates}
   EOF
 end
 
