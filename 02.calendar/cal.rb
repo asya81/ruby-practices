@@ -24,7 +24,7 @@ def initialize_options(error: "")
   end
 end
 
-def initialize_parameters(input_year:, input_month:, error_message: [])
+def initialize_parameters(input_year:, input_month:, errors: [])
   # 現在の年月
   today = Date.today
   current_year, current_month = today.year, today.month
@@ -32,18 +32,18 @@ def initialize_parameters(input_year:, input_month:, error_message: [])
   if input_year.nil?
     display_year = current_year
   elsif input_year.to_i <= 0
-    error_message << "y オプションには、1〜9999の整数を指定してください。"
+    errors << "y オプションには、1〜9999の整数を指定してください。"
   else
     display_year = input_year.to_i
   end
   if input_month.nil?
     display_month = current_month
   elsif !(1..12).cover?(input_month.to_i)
-    error_message << "m オプションには、1〜12の整数を指定してください。"
+    errors << "m オプションには、1〜12の整数を指定してください。"
   else
     display_month = input_month.to_i
   end
-  return display_year, display_month, today.day.to_i, error_message
+  return display_year, display_month, today.day.to_i, errors
 end
 
 def generate_calendar(year:, month:, day:)
@@ -71,14 +71,14 @@ end
 
 options, options_error = initialize_options
 if options_error.empty?
-  year, month, day, params_error = initialize_parameters(input_year: options["y"], input_month: options["m"])
+  year, month, day, params_errors = initialize_parameters(input_year: options["y"], input_month: options["m"])
 else
   puts options_error
   return
 end
-if params_error.empty?
+if params_errors.empty?
   puts generate_calendar(year: year, month: month, day: day)
 else
-  puts params_error
+  puts params_errors
   return
 end
