@@ -16,57 +16,60 @@ class Calendar
     @current_year, @current_month = @today.year, @today.month
   end
 
-  def initialize_options(error: "")
+  def initialize_options
+    error = ""
     begin
       # コマンドラインから受け取った年月
       options = ARGV.getopts('y:', 'm:')
+      @input_year, @input_month = options["y"], options["m"]
     rescue OptionParser::InvalidOption
       error << "オプションには、 y（年）または m（月）のみ指定できます。"
     rescue OptionParser::MissingArgument
       error << "オプションの値を設定してください。"
     ensure
-      return options, error
+      return error
     end
   end
 
-  def initialize_parameters(input_year:, input_month:, errors: [])
+  def initialize_parameters
+    errors = []
     # コマンドラインからの指定がない場合、現在の年月を表示
-    if input_year.nil?
-      display_year = @current_year
-    elsif input_year.to_i <= 0
+    if @input_year.nil?
+      @display_year = @current_year
+    elsif @input_year.to_i <= 0
       errors << "y オプションには、1〜9999の整数を指定してください。"
     else
-      display_year = input_year.to_i
+      @display_year = @input_year.to_i
     end
-    if input_month.nil?
-      display_month = @current_month
-    elsif !(1..12).cover?(input_month.to_i)
+    if @input_month.nil?
+      @display_month = @current_month
+    elsif !(1..12).cover?(@input_month.to_i)
       errors << "m オプションには、1〜12の整数を指定してください。"
     else
-      display_month = input_month.to_i
+      @display_month = @input_month.to_i
     end
-    return display_year, display_month, errors
+    return errors
   end
 
-  def generate(year:, month:)
+  def generate
     # 年月の先頭の余白
     header_spaces = "\s" * HEADER_MARGIN_SPACES
     # 第1週の先頭の余白
-    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(year, month, 1).wday
+    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(@display_year, @display_month, 1).wday
     # 表示月の最終日
-    last_day = Date.new(year, month, -1).day
+    last_day = Date.new(@display_year, @display_month, -1).day
     # 表示する日付
     dates = ""
     (1..last_day).each do |date|
-      current_date = Date.new(year, month, date)
+      current_date = Date.new(@display_year, @display_month, date)
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
       dates << sprintf("%2d", date)
       dates << RESET_CODE if current_date == @today
       dates << "\s"
-      dates << "\r\n" if current_date.saturday?
+      dates << "\n" if current_date.saturday?
     end
     <<~EOF
-    #{header_spaces}#{month}#{MONTH_LABEL}\s#{year}
+    #{header_spaces}#{@display_month}#{MONTH_LABEL}\s#{@display_year}
     #{DAYS}
     #{first_week_spaces}#{dates}
     EOF
