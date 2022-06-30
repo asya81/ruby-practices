@@ -27,7 +27,7 @@ class Calendar
     rescue OptionParser::MissingArgument
       error << "オプションの値を設定してください。"
     ensure
-      error
+      return error
     end
   end
 
@@ -48,7 +48,7 @@ class Calendar
     else
       @display_month = @input_month.to_i
     end
-    errors
+    return errors
   end
 
   def generate
