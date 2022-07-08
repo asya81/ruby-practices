@@ -1,6 +1,6 @@
+require 'date'
+require 'optparse'
 class Calendar
-  require 'date'
-  require 'optparse'
   # 年月の先頭のスペースの数
   HEADER_MARGIN_SPACES = 6
   # 1日分の半角スペースの数
