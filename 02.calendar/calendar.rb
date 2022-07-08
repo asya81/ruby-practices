@@ -26,9 +26,9 @@ class Calendar
       error << "オプションには、 y（年）または m（月）のみ指定できます。"
     rescue OptionParser::MissingArgument
       error << "オプションの値を設定してください。"
-    ensure
-      return error
     end
+
+    error
   end
 
   def initialize_parameters
