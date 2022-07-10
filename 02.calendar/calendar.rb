@@ -36,7 +36,7 @@ class Calendar
     # コマンドラインからの指定がない場合、現在の年月を表示
     if @input_year.nil?
       @display_year = @current_year
-    elsif @input_year.to_i <= 0
+    elsif @input_year.to_i < 1 or @input_month.to_i > 9999
       errors << "y オプションには、1〜9999の整数を指定してください。"
     else
       @display_year = @input_year.to_i
