@@ -17,18 +17,18 @@ class Calendar
   end
 
   def initialize_options
-    error = ""
+    errors = []
     begin
       # コマンドラインから受け取った年月
       options = ARGV.getopts('y:', 'm:')
       @input_year, @input_month = options["y"], options["m"]
     rescue OptionParser::InvalidOption
-      error << "オプションには、 y（年）または m（月）のみ指定できます。"
+      errors << "オプションには、 y（年）または m（月）のみ指定できます。"
     rescue OptionParser::MissingArgument
-      error << "オプションの値を設定してください。"
+      errors << "オプションの値を設定してください。"
     end
 
-    error
+    errors
   end
 
   def initialize_parameters
