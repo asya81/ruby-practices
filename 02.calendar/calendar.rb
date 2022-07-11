@@ -23,12 +23,6 @@ class Calendar
       return
     end
 
-    errors = initialize_parameters
-    unless errors.empty?
-      puts errors.join("\n")
-      return
-    end
-
     # 年月の先頭の余白
     header_spaces = "\s" * HEADER_MARGIN_SPACES
     # 第1週の先頭の余白
@@ -69,12 +63,6 @@ class Calendar
     rescue OptionParser::MissingArgument
       errors << "オプションの値を設定してください。"
     end
-
-    errors
-  end
-
-  def initialize_parameters
-    errors = []
     # コマンドラインからの指定がない場合、現在の年月を表示
     if @input_year.nil?
       @display_year = @current_year
