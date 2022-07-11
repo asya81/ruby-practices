@@ -13,11 +13,10 @@ class Calendar
 
   def initialize
     @today = Date.today
-    @current_year, @current_month = @today.year, @today.month
   end
 
   def generate
-    errors = initialize_options
+    display_year, display_month, errors = initialize_options
     unless errors.empty?
       puts errors.join("\n")
       return
@@ -26,13 +25,13 @@ class Calendar
     # 年月の先頭の余白
     header_spaces = "\s" * HEADER_MARGIN_SPACES
     # 第1週の先頭の余白
-    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(@display_year, @display_month, 1).wday
+    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(display_year, display_month, 1).wday
     # 表示月の最終日
-    last_day = Date.new(@display_year, @display_month, -1).day
+    last_day = Date.new(display_year, display_month, -1).day
     # 表示する日付
     dates = ""
     (1..last_day).each do |date|
-      current_date = Date.new(@display_year, @display_month, date)
+      current_date = Date.new(display_year, display_month, date)
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
       dates << sprintf("%2d", date)
       dates << RESET_CODE if current_date == @today
@@ -43,7 +42,7 @@ class Calendar
       end
     end
     calendar = <<~EOF
-    #{header_spaces}#{@display_month}#{MONTH_LABEL}\s#{@display_year}
+    #{header_spaces}#{display_month}#{MONTH_LABEL}\s#{display_year}
     #{DAYS}
     #{first_week_spaces}#{dates}
     EOF
@@ -57,29 +56,28 @@ class Calendar
     begin
       # コマンドラインから受け取った年月
       options = ARGV.getopts('y:', 'm:')
-      @input_year, @input_month = options["y"], options["m"]
+      input_year, input_month = options["y"], options["m"]
     rescue OptionParser::InvalidOption
       errors << "オプションには、 y（年）または m（月）のみ指定できます。"
     rescue OptionParser::MissingArgument
       errors << "オプションの値を設定してください。"
     end
     # コマンドラインからの指定がない場合、現在の年月を表示
-    if @input_year.nil?
-      @display_year = @current_year
-    elsif @input_year.to_i.between?(1, 9999)
-      @display_year = @input_year.to_i
+    if input_year.nil?
+      display_year = @today.year
+    elsif input_year.to_i.between?(1, 9999)
+      display_year = input_year.to_i
     else
       errors << "y オプションには、1〜9999の整数を指定してください。"
     end
-    if @input_month.nil?
-      @display_month = @current_month
-    elsif @input_month.to_i.between?(1, 12)
-      @display_month = @input_month.to_i
+    if input_month.nil?
+      display_month = @today.month
+    elsif input_month.to_i.between?(1, 12)
+      display_month = input_month.to_i
     else
       errors << "m オプションには、1〜12の整数を指定してください。"
     end
 
-    errors
+    return display_year, display_month, errors
   end
-
 end
