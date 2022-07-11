@@ -16,6 +16,48 @@ class Calendar
     @current_year, @current_month = @today.year, @today.month
   end
 
+  def generate
+    errors = initialize_options
+    unless errors.empty?
+      puts errors.join("\n")
+      return
+    end
+
+    errors = initialize_parameters
+    unless errors.empty?
+      puts errors.join("\n")
+      return
+    end
+
+    # 年月の先頭の余白
+    header_spaces = "\s" * HEADER_MARGIN_SPACES
+    # 第1週の先頭の余白
+    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(@display_year, @display_month, 1).wday
+    # 表示月の最終日
+    last_day = Date.new(@display_year, @display_month, -1).day
+    # 表示する日付
+    dates = ""
+    (1..last_day).each do |date|
+      current_date = Date.new(@display_year, @display_month, date)
+      dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
+      dates << sprintf("%2d", date)
+      dates << RESET_CODE if current_date == @today
+      if current_date.saturday?
+        dates << "\n"
+      elsif date != last_day
+        dates << "\s"
+      end
+    end
+    calendar = <<~EOF
+    #{header_spaces}#{@display_month}#{MONTH_LABEL}\s#{@display_year}
+    #{DAYS}
+    #{first_week_spaces}#{dates}
+    EOF
+    puts calendar
+  end
+
+  private
+
   def initialize_options
     errors = []
     begin
@@ -52,30 +94,4 @@ class Calendar
     errors
   end
 
-  def generate
-    # 年月の先頭の余白
-    header_spaces = "\s" * HEADER_MARGIN_SPACES
-    # 第1週の先頭の余白
-    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(@display_year, @display_month, 1).wday
-    # 表示月の最終日
-    last_day = Date.new(@display_year, @display_month, -1).day
-    # 表示する日付
-    dates = ""
-    (1..last_day).each do |date|
-      current_date = Date.new(@display_year, @display_month, date)
-      dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
-      dates << sprintf("%2d", date)
-      dates << RESET_CODE if current_date == @today
-      if current_date.saturday?
-        dates << "\n"
-      elsif date != last_day
-        dates << "\s"
-      end
-    end
-    <<~EOF
-    #{header_spaces}#{@display_month}#{MONTH_LABEL}\s#{@display_year}
-    #{DAYS}
-    #{first_week_spaces}#{dates}
-    EOF
-  end
 end
