@@ -66,8 +66,11 @@ class Calendar
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
       dates << sprintf("%2d", date)
       dates << RESET_CODE if current_date == @today
-      dates << "\s"
-      dates << "\n" if current_date.saturday?
+      if current_date.saturday?
+        dates << "\n"
+      elsif date != last_day
+        dates << "\s"
+      end
     end
     <<~EOF
     #{header_spaces}#{@display_month}#{MONTH_LABEL}\s#{@display_year}
