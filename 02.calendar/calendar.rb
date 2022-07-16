@@ -12,10 +12,6 @@ class Calendar
   BACKGROUND_COLOR_WHITE = "\e[47m"
   RESET_CODE = "\e[0m"
 
-  def initialize
-    @today = Date.today
-  end
-
   def generate
     year, month, errors = initialize_year_month
     return errors.join("\n") unless errors.empty?
@@ -30,9 +26,9 @@ class Calendar
     dates = ""
     (1..last_day).each do |day|
       current_date = Date.new(year, month, day)
-      dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
+      dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == today
       dates << sprintf("%2d", day)
-      dates << RESET_CODE if current_date == @today
+      dates << RESET_CODE if current_date == today
       if current_date.saturday?
         dates << "\n"
       elsif day != last_day
@@ -61,14 +57,14 @@ class Calendar
     end
     # コマンドラインからの指定がない場合、現在の年月を表示
     if input_year.nil?
-      year = @today.year
+      year = today.year
     elsif input_year.to_i.between?(1, 9999)
       year = input_year.to_i
     else
       errors << "y オプションには、1〜9999の整数を指定してください。"
     end
     if input_month.nil?
-      month = @today.month
+      month = today.month
     elsif input_month.to_i.between?(1, 12)
       month = input_month.to_i
     else
@@ -76,5 +72,9 @@ class Calendar
     end
 
     return year, month, errors
+  end
+
+  def today
+    Date.today
   end
 end
