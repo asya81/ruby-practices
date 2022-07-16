@@ -17,7 +17,7 @@ class Calendar
   end
 
   def generate
-    display_year, display_month, errors = initialize_options
+    display_year, display_month, errors = initialize_year_month
     return errors.join("\n") unless errors.empty?
 
     # 年月の先頭の余白
@@ -48,7 +48,7 @@ class Calendar
 
   private
 
-  def initialize_options
+  def initialize_year_month
     errors = []
     begin
       # コマンドラインから受け取った年月
