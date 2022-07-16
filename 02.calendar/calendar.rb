@@ -1,5 +1,6 @@
 require 'date'
 require 'optparse'
+
 class Calendar
   # 年月の先頭のスペースの数
   HEADER_MARGIN_SPACES = 6
@@ -17,10 +18,7 @@ class Calendar
 
   def generate
     display_year, display_month, errors = initialize_options
-    unless errors.empty?
-      puts errors.join("\n")
-      return
-    end
+    return errors.join("\n") unless errors.empty?
 
     # 年月の先頭の余白
     header_spaces = "\s" * HEADER_MARGIN_SPACES
@@ -41,12 +39,11 @@ class Calendar
         dates << "\s"
       end
     end
-    calendar = <<~EOF
+    <<~EOF
     #{header_spaces}#{display_month}#{MONTH_LABEL}\s#{display_year}
     #{DAYS}
     #{first_week_spaces}#{dates}
     EOF
-    puts calendar
   end
 
   private

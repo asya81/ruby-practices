@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative 'calendar'
 
-Calendar.new.generate
+puts Calendar.new.generate
