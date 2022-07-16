@@ -28,14 +28,14 @@ class Calendar
     last_day = Date.new(year, month, -1).day
     # 表示する日付
     dates = ""
-    (1..last_day).each do |date|
-      current_date = Date.new(year, month, date)
+    (1..last_day).each do |day|
+      current_date = Date.new(year, month, day)
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == @today
-      dates << sprintf("%2d", date)
+      dates << sprintf("%2d", day)
       dates << RESET_CODE if current_date == @today
       if current_date.saturday?
         dates << "\n"
-      elsif date != last_day
+      elsif day != last_day
         dates << "\s"
       end
     end
