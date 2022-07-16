@@ -49,11 +49,12 @@ class Calendar
     begin
       # コマンドラインから受け取った年月
       options = ARGV.getopts('y:', 'm:')
-      input_year, input_month = options["y"], options["m"]
     rescue OptionParser::InvalidOption
       errors << "オプションには、 y（年）または m（月）のみ指定できます。"
     rescue OptionParser::MissingArgument
       errors << "オプションの値を設定してください。"
+    else
+      input_year, input_month = options["y"], options["m"]
     end
     # コマンドラインからの指定がない場合、現在の年月を表示
     if input_year.nil?
