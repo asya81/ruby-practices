@@ -54,20 +54,20 @@ class Calendar
     rescue OptionParser::MissingArgument
       errors << "オプションの値を設定してください。"
     else
-      input_year, input_month = options["y"], options["m"]
+      year_text, month_text = options["y"], options["m"]
     end
     # コマンドラインからの指定がない場合、現在の年月を表示
-    if input_year.nil?
+    if year_text.nil?
       year = today.year
-    elsif input_year.to_i.between?(1, 9999)
-      year = input_year.to_i
+    elsif year_text.to_i.between?(1, 9999)
+      year = year_text.to_i
     else
       errors << "y オプションには、1〜9999の整数を指定してください。"
     end
-    if input_month.nil?
+    if month_text.nil?
       month = today.month
-    elsif input_month.to_i.between?(1, 12)
-      month = input_month.to_i
+    elsif month_text.to_i.between?(1, 12)
+      month = month_text.to_i
     else
       errors << "m オプションには、1〜12の整数を指定してください。"
     end
