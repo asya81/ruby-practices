@@ -29,10 +29,13 @@ class Calendar
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == today
       dates << sprintf("%2d", day)
       dates << RESET_CODE if current_date == today
-      if current_date.saturday?
-        dates << "\n"
-      elsif day != last_day
-        dates << "\s"
+      # 最終日は空白も改行も不要
+      unless day == last_day
+        if current_date.saturday?
+          dates << "\n"
+        else
+          dates << "\s"
+        end
       end
     end
     <<~EOF
