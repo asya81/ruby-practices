@@ -18,7 +18,7 @@ class Calendar
     first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(year, month, 1).wday
     last_day = Date.new(year, month, -1).day
 
-    dates = ""
+    dates = []
     (1..last_day).each do |day|
       current_date = Date.new(year, month, day)
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == today
@@ -37,7 +37,7 @@ class Calendar
     <<~EOF
     #{header_spaces}#{month}#{MONTH_LABEL}\s#{year}
     #{DAYS}
-    #{first_week_spaces}#{dates}
+    #{first_week_spaces}#{dates.join}
     EOF
   end
 
