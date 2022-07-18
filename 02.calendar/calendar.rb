@@ -16,16 +16,16 @@ class Calendar
 
     header_spaces = "\s" * HEADER_MARGIN_SPACES
     first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(year, month, 1).wday
-    last_day = Date.new(year, month, -1).day
 
     dates = []
-    (1..last_day).each do |day|
-      current_date = Date.new(year, month, day)
+    first_date = Date.new(year, month, 1)
+    last_date = Date.new(year, month, -1)
+    (first_date..last_date).each do |current_date|
       dates << "#{CHARACTER_COLOR_BLACK}#{BACKGROUND_COLOR_WHITE}" if current_date == today
-      dates << sprintf("%2d", day)
+      dates << sprintf("%2d", current_date.day)
       dates << RESET_CODE if current_date == today
 
-      unless day == last_day
+      unless current_date == last_date
         if current_date.saturday?
           dates << "\n"
         else
