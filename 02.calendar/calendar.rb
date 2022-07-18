@@ -2,10 +2,6 @@ require 'date'
 require 'optparse'
 
 class Calendar
-  HEADER_MARGIN_SPACES = 6
-  ONE_DAY_SPACES = 3
-  MONTH_LABEL = "月"
-  DAYS = "日 月 火 水 木 金 土"
   CHARACTER_COLOR_BLACK = "\e[30m"
   BACKGROUND_COLOR_WHITE = "\e[47m"
   RESET_CODE = "\e[0m"
@@ -14,9 +10,6 @@ class Calendar
     today = Date.today
     year, month, errors = initialize_year_month(today)
     return errors.join("\n") unless errors.empty?
-
-    header_spaces = "\s" * HEADER_MARGIN_SPACES
-    first_week_spaces = "\s" * ONE_DAY_SPACES * Date.new(year, month, 1).wday
 
     dates = []
     first_date = Date.new(year, month, 1)
@@ -36,9 +29,9 @@ class Calendar
     end
 
     <<~EOF
-    #{header_spaces}#{month}#{MONTH_LABEL}\s#{year}
-    #{DAYS}
-    #{first_week_spaces}#{dates.join}
+    #{"\s" * 6}#{month}月\s#{year}
+    日 月 火 水 木 金 土
+    #{"\s" * 3 * first_date.wday}#{dates.join}
     EOF
   end
 
