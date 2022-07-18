@@ -29,7 +29,7 @@ class Calendar
     end
 
     <<~EOF
-    #{"\s" * 6}#{month}月\s#{year}
+          #{month}月 #{year}
     日 月 火 水 木 金 土
     #{"\s" * 3 * first_date.wday}#{dates.join}
     EOF
