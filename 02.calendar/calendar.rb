@@ -11,7 +11,8 @@ class Calendar
   RESET_CODE = "\e[0m"
 
   def generate
-    year, month, errors = initialize_year_month
+    today = Date.today
+    year, month, errors = initialize_year_month(today)
     return errors.join("\n") unless errors.empty?
 
     header_spaces = "\s" * HEADER_MARGIN_SPACES
@@ -43,7 +44,7 @@ class Calendar
 
   private
 
-  def initialize_year_month
+  def initialize_year_month(today)
     errors = []
     begin
       options = ARGV.getopts('y:', 'm:')
@@ -72,9 +73,5 @@ class Calendar
     end
 
     return year, month, errors
-  end
-
-  def today
-    Date.today
   end
 end
