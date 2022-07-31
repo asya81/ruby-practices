@@ -6,25 +6,31 @@ scores = score.split(',')
 shots = []
 scores.each { |s| shots << (s == 'X' ? 10 : s.to_i) }
 
-# TODO: スコアの計算方法を旧ルールのものに変更する
-# 1投目から順に、スコアの計算をしていく。
-# 今回の点数が10だった場合、ストライク：今回を含めた3投分を合計してスコアとし、次のショットに進む。
-# 今回の点数が10以外かつ次の点数との合計が10の場合、スペア：今回を含めた3投分を合計してスコアとし、2つ後のショットに進む。
-# 今回の点数と次の点数との合計が10ではない場合、オープンフレーム： 今回を含めた2投分を合計してスコアとし、2つ後のショットに進む。
-# frames = []
-# shots.each_slice(2) do |s|
-#   frames << s
-# end
-#
-# point = 0
-# frames.each do |frame|
-#   if frame[0] == 10 # strike
-#     point += 30
-#   elsif frame.sum == 10 # spare
-#     point += frame[0] + 10
-#   else
-#     point += frame.sum
-#   end
-# end
+point = 0
+frame = 0
+next_frame = 0
+# 10フレーム目が2投の場合を考慮してshotsに0を追加
+(shots << 0).each_cons(3) do |three_shots|
+  if next_frame > 1
+    next_frame -= 1
+    next
+  else
+    frame += 1
+  end
+  first_shot, second_shot = three_shots.take(2)
+  if frame == 10
+    point += three_shots.sum
+    break
+  elsif first_shot == 10
+    point += three_shots.sum
+    next_frame = 1
+  elsif first_shot + second_shot == 10
+    point += three_shots.sum
+    next_frame = 2
+  else
+    point += first_shot + second_shot
+    next_frame = 2
+  end
+end
 
-p shots
+p point
