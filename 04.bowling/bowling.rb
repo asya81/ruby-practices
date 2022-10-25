@@ -8,7 +8,7 @@ scores.each { |s| shots << (s == 'X' ? 10 : s.to_i) }
 
 point = 0
 frame = 0
-next_frame = 0
+next_frame = 0 # 次のフレームまでの投数
 # 10フレーム目が2投の場合を考慮してshotsに0を追加
 (shots << 0).each_cons(3) do |three_shots|
   if next_frame > 1
