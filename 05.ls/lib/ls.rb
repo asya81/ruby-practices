@@ -6,7 +6,7 @@ LS_TAB_SIZE = 8
 
 def main
   wd_object_names = Dir.glob('*')
-  return if wd_object_names.empty?
+  return '' if wd_object_names.empty?
 
   print list_objects(wd_object_names)
 end
@@ -26,7 +26,7 @@ def list_objects(object_names)
 
   display_array = []
   vertical_array.each do |list|
-    display_array << list.map { |object| object.ljust(col_length) unless object.nil? }.join
+    display_array << list.map { |object| object.ljust(col_length) unless object.nil? }.join.strip
     display_array << "\n"
   end
   display_array.join
