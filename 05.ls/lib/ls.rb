@@ -4,10 +4,10 @@
 COL_COUNT = 3
 
 def main
-  wd_file_names = Dir.glob('*')
-  return if wd_file_names.empty?
+  wd_object_names = Dir.glob('*')
+  return if wd_object_names.empty?
 
-  list_files(wd_file_names)
+  list_files(wd_object_names)
 end
 
 def list_files(file_names)
