@@ -6,7 +6,7 @@ LS_TAB_SIZE = 8
 
 def main
   wd_object_names = Dir.glob('*')
-  return if wd_object_names.empty?
+  return '' if wd_object_names.empty?
 
   print list_objects(wd_object_names)
 end

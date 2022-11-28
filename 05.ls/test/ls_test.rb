@@ -6,7 +6,7 @@ require_relative '../lib/ls'
 class LsTest < Minitest::Test
   def test_ls_0_objects
     Dir.stub(:glob, %w[]) do
-      assert_nil main
+      assert_equal '', main
     end
   end
 
