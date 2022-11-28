@@ -8,7 +8,7 @@ def main
   wd_object_names = Dir.glob('*')
   return if wd_object_names.empty?
 
-  list_objects(wd_object_names)
+  print list_objects(wd_object_names)
 end
 
 def list_objects(object_names)
@@ -38,4 +38,4 @@ def list_objects(object_names)
   display_array.join
 end
 
-print main
+main
