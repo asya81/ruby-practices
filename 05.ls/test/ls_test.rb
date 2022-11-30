@@ -23,7 +23,7 @@ class LsTest < Minitest::Test
   end
 
   def test_ls_5_objects
-    assert_equal "1       3       5\n2       4       \n", list_objects(%w[1 2 3 4 5])
+    assert_equal "1       3       5\n2       4\n", list_objects(%w[1 2 3 4 5])
   end
 
   def test_ls_9_objects
@@ -31,7 +31,7 @@ class LsTest < Minitest::Test
   end
 
   def test_ls_10_objects
-    assert_equal "1       4       8\n10      5       9\n2       6       \n3       7       \n", list_objects(%w[1 10 2 3 4 5 6 7 8 9])
+    assert_equal "1       4       8\n10      5       9\n2       6\n3       7\n", list_objects(%w[1 10 2 3 4 5 6 7 8 9])
   end
 
   def test_ls_long_name_objects
@@ -39,8 +39,8 @@ class LsTest < Minitest::Test
     expected = <<~OUTPUT
       01.fizzbuzz             05.ls                   09.wc_object
       02.calendar             06.wc                   README.md
-      03.rake                 07.bowling_object       
-      04.bowling              08.ls_object            
+      03.rake                 07.bowling_object
+      04.bowling              08.ls_object
     OUTPUT
     assert_equal expected, list_objects(object_names)
   end
