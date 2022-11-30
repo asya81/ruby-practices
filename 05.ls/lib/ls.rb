@@ -26,14 +26,8 @@ def list_objects(object_names)
 
   display_array = []
   vertical_array.each do |list|
-    list.each.with_index(1) do |object, i|
-      display_array <<
-        if i == list.size
-          [object, "\n"]
-        else
-          object.ljust(col_length)
-        end
-    end
+    display_array << list.map { |object| object.ljust(col_length) unless object.nil? }.join
+    display_array << "\n"
   end
   display_array.join
 end
