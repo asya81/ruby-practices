@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 COL_COUNT = 3
-LS_TAB_SIZE = 8
+TAB_SIZE = 8
 
 def main
   wd_object_names = Dir.glob('*')
@@ -22,7 +22,7 @@ def list_objects(object_names)
 
   max_object_name_length = object_names.max_by(&:length).length
   # ファイル名先頭から次のファイル名までの文字数
-  col_length = (max_file_name_length / LS_TAB_SIZE + 1) * LS_TAB_SIZE
+  col_length = (max_object_name_length / TAB_SIZE + 1) * TAB_SIZE
 
   display_array = []
   vertical_array.each do |list|
