@@ -14,6 +14,10 @@ class LsTest < Minitest::Test
     assert_equal "1\n", list_objects(%w[1])
   end
 
+  def test_ls_2_object
+    assert_equal "1       2\n", list_objects(%w[1 2])
+  end
+
   def test_ls_3_objects
     assert_equal "1       2       3\n", list_objects(%w[1 2 3])
   end
@@ -26,12 +30,12 @@ class LsTest < Minitest::Test
     assert_equal "1       3       5\n2       4\n", list_objects(%w[1 2 3 4 5])
   end
 
-  def test_ls_9_objects
-    assert_equal "1       4       7\n2       5       8\n3       6       9\n", list_objects(%w[1 2 3 4 5 6 7 8 9])
+  def test_ls_6_objects
+    assert_equal "1       3       5\n2       4       6\n", list_objects(%w[1 2 3 4 5 6])
   end
 
-  def test_ls_10_objects
-    assert_equal "1       4       8\n10      5       9\n2       6\n3       7\n", list_objects(%w[1 10 2 3 4 5 6 7 8 9])
+  def test_ls_7_objects
+    assert_equal "1       4       7\n2       5\n3       6\n", list_objects(%w[1 2 3 4 5 6 7])
   end
 
   def test_ls_long_name_objects
