@@ -10,6 +10,14 @@ class LsTest < Minitest::Test
     end
   end
 
+  def test_glob_objects_without_options
+    assert_equal %w[lib test], glob_objects({ 'a' => false })
+  end
+
+  def test_glob_objects_with_a_option
+    assert_equal %w[. .. .gitkeep lib test], glob_objects({ 'a' => true })
+  end
+
   def test_ls_1_object
     assert_equal "1\n", list_objects(%w[1])
   end
@@ -36,6 +44,10 @@ class LsTest < Minitest::Test
 
   def test_ls_7_objects
     assert_equal "1       4       7\n2       5\n3       6\n", list_objects(%w[1 2 3 4 5 6 7])
+  end
+
+  def test_ls_objects_with_dot_match
+    assert_equal ".               .gitkeep        test\n..              lib\n", list_objects(%w[. .. .gitkeep lib test])
   end
 
   def test_ls_long_name_objects
