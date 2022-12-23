@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 COL_COUNT = 3
 TAB_SIZE = 8
 
 def main
+  options = ARGV.getopts('a')
   wd_object_names = Dir.glob('*')
   return '' if wd_object_names.empty?
 
