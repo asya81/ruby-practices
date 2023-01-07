@@ -1,14 +1,22 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 COL_COUNT = 3
 TAB_SIZE = 8
 
 def main
-  wd_object_names = Dir.glob('*')
+  options = ARGV.getopts('a')
+  wd_object_names = glob_objects(options)
   return '' if wd_object_names.empty?
 
   print list_objects(wd_object_names)
+end
+
+def glob_objects(options)
+  flags = options['a'] ? File::FNM_DOTMATCH : 0
+  Dir.glob('*', flags)
 end
 
 def list_objects(object_names)

@@ -38,6 +38,10 @@ class LsTest < Minitest::Test
     assert_equal "1       4       7\n2       5\n3       6\n", list_objects(%w[1 2 3 4 5 6 7])
   end
 
+  def test_ls_objects_with_dot_match
+    assert_equal ".               .gitkeep        test\n..              lib\n", list_objects(%w[. .. .gitkeep lib test])
+  end
+
   def test_ls_long_name_objects
     object_names = %w[01.fizzbuzz 02.calendar 03.rake 04.bowling 05.ls 06.wc 07.bowling_object 08.ls_object 09.wc_object README.md]
     expected = <<~OUTPUT
