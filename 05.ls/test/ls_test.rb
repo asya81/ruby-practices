@@ -66,4 +66,8 @@ class LsTest < Minitest::Test
     object_names = %w[sample test.txt test_for_long_file_name.txt]
     assert_equal expected, long_format_objects(object_names)
   end
+
+  def test_ls_r_option
+    assert_equal %w[test lib], glob_objects({ 'r' => true })
+  end
 end
