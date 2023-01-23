@@ -48,4 +48,8 @@ class LsTest < Minitest::Test
     OUTPUT
     assert_equal expected, list_objects(object_names)
   end
+
+  def test_ls_r_option
+    assert_equal %w[test lib], glob_objects({ 'r' => true })
+  end
 end
