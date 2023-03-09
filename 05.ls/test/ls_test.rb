@@ -50,6 +50,16 @@ class LsTest < Minitest::Test
       03.rake                 07.bowling_object
       04.bowling              08.ls_object
     OUTPUT
-    assert_equal expected, list_objects(object_names)
+    assert_equal expected, simple_format_objects(object_names)
+  end
+
+  def test_ls_l_option
+    expected = <<~OUTPUT
+      total 0
+      drwxr-xr-x  3 asya  staff  96 Mar 08 22:48 lib
+      drwxr-xr-x  3 asya  staff  96 Mar 09 23:28 test
+    OUTPUT
+    object_names = %w[lib test]
+    assert_equal expected, long_format_objects(object_names)
   end
 end
