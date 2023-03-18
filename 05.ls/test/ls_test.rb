@@ -56,8 +56,8 @@ class LsTest < Minitest::Test
   def test_ls_l_option
     expected = <<~OUTPUT
       total 0
-      drwxr-xr-x  3 asya  staff  96 Mar 08 22:48 lib
-      drwxr-xr-x  3 asya  staff  96 Mar 09 23:28 test
+      drwxr-xr-x  3 asya  staff  96 Mar 18 18:22 lib
+      drwxr-xr-x  3 asya  staff  96 Mar 18 18:26 test
     OUTPUT
     object_names = %w[lib test]
     assert_equal expected, long_format_objects(object_names)

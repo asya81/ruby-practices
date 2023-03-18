@@ -66,10 +66,9 @@ def long_format_objects(object_names)
 end
 
 def object_details(object_names)
-  object_states = []
-  object_names.each do |object_name|
+  object_names.map do |object_name|
     file_stat = File.stat(object_name)
-    object_states << {
+    {
       block: file_stat.blocks,
       file_type: ftype_initial(file_stat),
       file_mode: permission(file_stat),
@@ -81,7 +80,6 @@ def object_details(object_names)
       name: object_name
     }
   end
-  object_states
 end
 
 def ftype_initial(file_stat)
