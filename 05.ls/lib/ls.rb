@@ -55,8 +55,8 @@ def long_format_objects(object_names)
     display_array << object_state[:file_type]
     display_array << "#{object_state[:file_mode]}  "
     display_array << "#{object_state[:link].to_s.rjust(max_link_length)} "
-    display_array << "#{object_state[:owner].to_s.rjust(max_owner_length)}  "
-    display_array << "#{object_state[:owner_group].to_s.rjust(max_owner_group_length)}  "
+    display_array << "#{object_state[:owner].to_s.ljust(max_owner_length)}  "
+    display_array << "#{object_state[:owner_group].to_s.ljust(max_owner_group_length)}  "
     display_array << "#{object_state[:size].to_s.rjust(max_size_length)} "
     display_array << "#{object_state[:timestamp]} "
     display_array << object_state[:name]

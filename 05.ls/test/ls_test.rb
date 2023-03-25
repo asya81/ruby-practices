@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
+require 'fileutils'
 require_relative '../lib/ls'
 
 class LsTest < Minitest::Test
@@ -54,22 +55,15 @@ class LsTest < Minitest::Test
   end
 
   def test_ls_l_option
-    new_file_name = 'test_for_long_file_name'
-    File.open(new_file_name, 'w', 0o640) do |f|
-      f.write 123
-    end
-    mtime = Time.now.strftime('%b %d %H:%M')
+    FileUtils.cd('l_option')
     expected = <<~"OUTPUT"
-      total 8
-      drwxr-xr-x  3 asya  staff  96 Mar 18 18:22 lib
-      drwxr-xr-x  3 asya  staff  96 Mar 19 22:47 test
-      -rw-r-----  1 asya  staff   3 #{mtime} #{new_file_name}
+      total 16
+      drwxr-xr-x  3 asya      staff      96 Mar 25 23:44 sample
+      -rw-r--r--  1 asya81jp  everyone    5 Mar 25 23:06 test.txt
+      -rw-r--r--  1 asya      staff     241 Mar 25 23:32 test_for_long_file_name.txt
     OUTPUT
-    object_names = %w[lib test test_for_long_file_name]
-    assert_equal expected, long_format_objects(object_names)
-  end
 
-  Minitest.after_run do
-    File.delete('./test_for_long_file_name')
+    object_names = %w[sample test.txt test_for_long_file_name.txt]
+    assert_equal expected, long_format_objects(object_names)
   end
 end
