@@ -8,7 +8,7 @@ COL_COUNT = 3
 TAB_SIZE = 8
 
 def main
-  options = ARGV.getopts('lr')
+  options = ARGV.getopts('alr')
   wd_object_names = glob_objects(options)
   if wd_object_names.empty?
     print ''
@@ -20,7 +20,14 @@ def main
 end
 
 def glob_objects(options)
-  options['r'] ? Dir.glob('*').reverse : Dir.glob('*')
+  case 
+  when options['a']
+    Dir.glob('*', File::FNM_DOTMATCH)
+  when options['r']
+    Dir.glob('*').reverse
+  else
+    Dir.glob('*')
+  end
 end
 
 def simple_format_objects(object_names)
