@@ -20,14 +20,15 @@ def main
 end
 
 def glob_objects(options)
-  case 
-  when options['a']
-    Dir.glob('*', File::FNM_DOTMATCH)
-  when options['r']
-    Dir.glob('*').reverse
-  else
-    Dir.glob('*')
-  end
+  object_names =
+    if options['a']
+      Dir.glob('*', File::FNM_DOTMATCH)
+    else
+      Dir.glob('*')
+    end
+
+  object_names.reverse! if options['r']
+  object_names
 end
 
 def simple_format_objects(object_names)
@@ -82,7 +83,7 @@ def object_details(object_names)
       owner: Etc.getpwuid(file_stat.uid).name,
       owner_group: Etc.getgrgid(file_stat.gid).name,
       size: file_stat.size.to_s,
-      timestamp: file_stat.mtime.strftime('%b %d %H:%M'),
+      timestamp: file_stat.mtime.strftime('%b %e %H:%M'),
       name: object_name
     }
   end
