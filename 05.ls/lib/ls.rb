@@ -8,7 +8,7 @@ COL_COUNT = 3
 TAB_SIZE = 8
 
 def main
-  options = ARGV.getopts('l')
+  options = ARGV.getopts('alr')
   wd_object_names = glob_objects(options)
   if wd_object_names.empty?
     print ''
@@ -20,8 +20,15 @@ def main
 end
 
 def glob_objects(options)
-  flags = options['a'] ? File::FNM_DOTMATCH : 0
-  Dir.glob('*', flags)
+  object_names =
+    if options['a']
+      Dir.glob('*', File::FNM_DOTMATCH)
+    else
+      Dir.glob('*')
+    end
+
+  object_names.reverse! if options['r']
+  object_names
 end
 
 def simple_format_objects(object_names)
@@ -76,7 +83,7 @@ def object_details(object_names)
       owner: Etc.getpwuid(file_stat.uid).name,
       owner_group: Etc.getgrgid(file_stat.gid).name,
       size: file_stat.size.to_s,
-      timestamp: file_stat.mtime.strftime('%b %d %H:%M'),
+      timestamp: file_stat.mtime.strftime('%b %e %H:%M'),
       name: object_name
     }
   end
