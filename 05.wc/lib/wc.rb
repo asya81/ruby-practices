@@ -10,28 +10,26 @@ def wc_output
   opt.on('-w') { |v| params[:words] = v }
   opt.on('-c') { |v| params[:bytes] = v }
   opt.parse!(ARGV)
-  
+
   total_output = []
-  l_total, w_total, c_total = [0, 0, 0]
-  multiple_files = ARGV.size > 1 ? true : false
+  l_total = 0
+  w_total = 0
+  c_total = 0
+  multiple_files = ARGV.size > 1
   while argv = ARGV.shift
     File.open(argv) do |file|
-      l, w, c = [0, 0, 0]
+      l = 0
+      w = 0
+      c = 0
       while line = file.gets
         l += 1
         w += line.split.size
         c += line.bytesize
       end
       output = []
-      if params[:lines] || with_no_options?(params)
-        output << l.to_s.rjust(8)
-      end
-      if params[:words] || with_no_options?(params)
-        output << w.to_s.rjust(8)
-      end
-      if params[:bytes] || with_no_options?(params)
-        output << c.to_s.rjust(8)
-      end
+      output << l.to_s.rjust(8) if params[:lines] || with_no_options?(params)
+      output << w.to_s.rjust(8) if params[:words] || with_no_options?(params)
+      output << c.to_s.rjust(8) if params[:bytes] || with_no_options?(params)
       output << " #{file.path}\n"
       total_output << output.join
       l_total += l
@@ -39,14 +37,14 @@ def wc_output
       c_total += c
     end
   end
-  if multiple_files
-    total_output << "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n"
-  end
+  total_output << "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n" if multiple_files
   total_output.join
 end
 
 def wc_output_with_pipe
-  l, w, c = [0, 0, 0]
+  l = 0
+  w = 0
+  c = 0
   ARGF.each_line do |line|
     l += 1
     w += line.split.size
@@ -56,7 +54,7 @@ def wc_output_with_pipe
 end
 
 def with_no_options?(params)
-  if params.values.all?{ |v| v == false }
+  if params.values.all? { |v| v == false }
     true
   else
     false
