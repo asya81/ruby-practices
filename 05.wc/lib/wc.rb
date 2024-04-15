@@ -61,9 +61,9 @@ def with_no_options?(params)
   end
 end
 
-if __FILE__ == $0
+if __FILE__ == $PROGRAM_NAME
   # ターミナルから実行した場合
-  if STDIN.tty?
+  if $stdin.tty?
     print wc_output
   else
     # パイプにつながっている場合
