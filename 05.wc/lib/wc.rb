@@ -16,12 +16,12 @@ def wc_output
   w_total = 0
   c_total = 0
   multiple_files = ARGV.size > 1
-  while argv = ARGV.shift
+  while (argv = ARGV.shift)
     File.open(argv) do |file|
       l = 0
       w = 0
       c = 0
-      while line = file.gets
+      while (line = file.gets)
         l += 1
         w += line.split.size
         c += line.bytesize
