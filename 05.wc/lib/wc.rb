@@ -54,11 +54,7 @@ def wc_output_with_pipe
 end
 
 def with_no_options?(params)
-  if params.values.all? { |v| v == false }
-    true
-  else
-    false
-  end
+  params.values.all? { |v| v == false }
 end
 
 if __FILE__ == $PROGRAM_NAME
