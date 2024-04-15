@@ -58,12 +58,9 @@ def with_no_options?(params)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  # ターミナルから実行した場合
   if $stdin.tty?
     print wc_output
   else
-    # パイプにつながっている場合
     print wc_output_with_pipe
-    # print "       3       3      34\n"
   end
 end
