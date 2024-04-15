@@ -39,8 +39,12 @@ class WcTest < Minitest::Test
   end
 
   def test_wc_with_two_files
-    assert_equal "       5       6      23 ../test/sample.txt\n      20     255    1548 ../test/sample2.txt\n      25     261    1571 total\n",
-                 `wc.rb ../test/sample.txt ../test/sample2.txt`
+    expected = <<-TEXT
+       5       6      23 ../test/sample.txt
+      20     255    1548 ../test/sample2.txt
+      25     261    1571 total
+    TEXT
+    assert_equal expected, `wc.rb ../test/sample.txt ../test/sample2.txt`
   end
 
   def test_wc_with_ls_without_options
