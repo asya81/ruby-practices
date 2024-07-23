@@ -11,11 +11,14 @@ def wc_output
   opt.on('-c') { |v| params[:bytes] = v }
   opt.parse!(ARGV)
 
+  counts_by_file = read_files
   total_output = []
-  l_total = 0
-  w_total = 0
-  c_total = 0
-  multiple_files = ARGV.size > 1
+  total_output << format_file(params, counts_by_file)
+  total_output << format_total(counts_by_file) if counts_by_file.size > 1
+  total_output.join
+end
+
+def read_files(counts: [])
   while (argv = ARGV.shift)
     File.open(argv) do |file|
       l = 0
@@ -26,19 +29,32 @@ def wc_output
         w += line.split.size
         c += line.bytesize
       end
-      output = []
-      output << l.to_s.rjust(8) if params[:lines] || with_no_options?(params)
-      output << w.to_s.rjust(8) if params[:words] || with_no_options?(params)
-      output << c.to_s.rjust(8) if params[:bytes] || with_no_options?(params)
-      output << " #{file.path}\n"
-      total_output << output.join
-      l_total += l
-      w_total += w
-      c_total += c
+      counts << { lines: l, words: w, bytes: c, path: file.path }
     end
   end
-  total_output << "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n" if multiple_files
-  total_output.join
+  counts
+end
+
+def format_file(params, counts)
+  output = []
+  counts.each do |count|
+    params.each_key do |key|
+      output << count[key].to_s.rjust(8) if selected_option?(params, key)
+    end
+    output << " #{count[:path]}\n"
+  end
+  output.join
+end
+
+def selected_option?(params, option)
+  params[option] || params.values.all? { |v| v == false }
+end
+
+def format_total(counts)
+  l_total = counts.inject(0) { |total, subtotal| total + subtotal[:lines] }
+  w_total = counts.inject(0) { |total, subtotal| total + subtotal[:words] }
+  c_total = counts.inject(0) { |total, subtotal| total + subtotal[:bytes] }
+  "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n"
 end
 
 def wc_output_with_pipe
@@ -51,10 +67,6 @@ def wc_output_with_pipe
     c += line.bytesize
   end
   "#{l.to_s.rjust(8)}#{w.to_s.rjust(8)}#{c.to_s.rjust(8)}\n"
-end
-
-def with_no_options?(params)
-  params.values.all? { |v| v == false }
 end
 
 if __FILE__ == $PROGRAM_NAME
