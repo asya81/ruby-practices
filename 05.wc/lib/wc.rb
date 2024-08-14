@@ -18,7 +18,8 @@ def wc_output
   total_output.join
 end
 
-def read_files(counts: [])
+def read_files
+  counts = []
   while (argv = ARGV.shift)
     File.open(argv) do |file|
       l = 0
