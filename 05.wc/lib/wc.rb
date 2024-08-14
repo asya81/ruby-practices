@@ -5,14 +5,14 @@ require 'optparse'
 
 def wc_output
   opt = OptionParser.new
-  params = { lines: false, words: false, bytes: false }
-  opt.on('-l') { |v| params[:lines] = v }
-  opt.on('-w') { |v| params[:words] = v }
-  opt.on('-c') { |v| params[:bytes] = v }
+  wc_options = { lines: false, words: false, bytes: false }
+  opt.on('-l') { |v| wc_options[:lines] = v }
+  opt.on('-w') { |v| wc_options[:words] = v }
+  opt.on('-c') { |v| wc_options[:bytes] = v }
   opt.parse!(ARGV)
 
   counts_by_file = read_files
-  total_by_file = format_file(params, counts_by_file)
+  total_by_file = format_file(wc_options, counts_by_file)
   total_of_files = format_total(counts_by_file) if counts_by_file.size > 1
   [total_by_file, total_of_files].join
 end
@@ -35,11 +35,11 @@ def read_files
   counts
 end
 
-def format_file(params, counts)
+def format_file(wc_options, counts)
   output = []
   counts.each do |count|
-    params.each_key do |key|
-      output << count[key].to_s.rjust(8) if selected_option?(params, key)
+    wc_options.each_key do |key|
+      output << count[key].to_s.rjust(8) if selected_option?(wc_options, key)
     end
     output << " #{count[:path]}\n"
   end
