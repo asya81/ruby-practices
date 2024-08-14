@@ -12,10 +12,9 @@ def wc_output
   opt.parse!(ARGV)
 
   counts_by_file = read_files
-  total_output = []
-  total_output << format_file(params, counts_by_file)
-  total_output << format_total(counts_by_file) if counts_by_file.size > 1
-  total_output.join
+  total_by_file = format_file(params, counts_by_file)
+  total_of_files = format_total(counts_by_file) if counts_by_file.size > 1
+  [total_by_file, total_of_files].join
 end
 
 def read_files
