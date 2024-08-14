@@ -52,9 +52,9 @@ def selected_option?(params, option)
 end
 
 def format_total(counts)
-  l_total = counts.inject(0) { |total, subtotal| total + subtotal[:lines] }
-  w_total = counts.inject(0) { |total, subtotal| total + subtotal[:words] }
-  c_total = counts.inject(0) { |total, subtotal| total + subtotal[:bytes] }
+  l_total = counts.sum { |count| count[:lines] }
+  w_total = counts.sum { |count| count[:words] }
+  c_total = counts.sum { |count| count[:bytes] }
   "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n"
 end
 
