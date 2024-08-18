@@ -40,7 +40,7 @@ def format_file(wc_options, counts)
   output = []
   counts.each do |count|
     wc_options.each_key do |key|
-      output << count[key].to_s.rjust(8) if selected_option?(wc_options, key)
+      output << format_as_tab(count[key]) if selected_option?(wc_options, key)
     end
     output << " #{count[:path]}" unless count[:path].nil?
     output << "\n"
@@ -56,7 +56,11 @@ def format_total(counts)
   l_total = counts.sum { |count| count[:lines] }
   w_total = counts.sum { |count| count[:words] }
   c_total = counts.sum { |count| count[:bytes] }
-  "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n"
+  "#{format_as_tab(l_total)}#{format_as_tab(w_total)}#{format_as_tab(c_total)} total\n"
+end
+
+def format_as_tab(num)
+  num.to_s.rjust(8)
 end
 
 print wc_output if __FILE__ == $PROGRAM_NAME
