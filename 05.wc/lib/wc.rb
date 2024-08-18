@@ -19,17 +19,18 @@ end
 
 def read_files
   counts = []
-  while (argv = ARGV.shift)
-    File.open(argv) do |file|
+  l = 0
+  w = 0
+  c = 0
+  ARGF.each do |line|
+    l += 1
+    w += line.split.size
+    c += line.bytesize
+    if ARGF.file.eof?
+      counts << { lines: l, words: w, bytes: c, path: $stdin.tty? ? ARGF.file.path : nil }
       l = 0
       w = 0
       c = 0
-      while (line = file.gets)
-        l += 1
-        w += line.split.size
-        c += line.bytesize
-      end
-      counts << { lines: l, words: w, bytes: c, path: file.path }
     end
   end
   counts
@@ -41,7 +42,8 @@ def format_file(wc_options, counts)
     wc_options.each_key do |key|
       output << count[key].to_s.rjust(8) if selected_option?(wc_options, key)
     end
-    output << " #{count[:path]}\n"
+    output << " #{count[:path]}" unless count[:path].nil?
+    output << "\n"
   end
   output.join
 end
@@ -57,22 +59,6 @@ def format_total(counts)
   "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n"
 end
 
-def wc_output_with_pipe
-  l = 0
-  w = 0
-  c = 0
-  ARGF.each_line do |line|
-    l += 1
-    w += line.split.size
-    c += line.bytesize
-  end
-  "#{l.to_s.rjust(8)}#{w.to_s.rjust(8)}#{c.to_s.rjust(8)}\n"
-end
-
 if __FILE__ == $PROGRAM_NAME
-  if $stdin.tty?
-    print wc_output
-  else
-    print wc_output_with_pipe
-  end
+  print wc_output
 end
