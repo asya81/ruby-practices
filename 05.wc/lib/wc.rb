@@ -26,12 +26,12 @@ def read_files
     l += 1
     w += line.split.size
     c += line.bytesize
-    if ARGF.file.eof?
-      counts << { lines: l, words: w, bytes: c, path: $stdin.tty? ? ARGF.file.path : nil }
-      l = 0
-      w = 0
-      c = 0
-    end
+    next unless ARGF.file.eof?
+
+    counts << { lines: l, words: w, bytes: c, path: $stdin.tty? ? ARGF.file.path : nil }
+    l = 0
+    w = 0
+    c = 0
   end
   counts
 end
@@ -59,6 +59,4 @@ def format_total(counts)
   "#{l_total.to_s.rjust(8)}#{w_total.to_s.rjust(8)}#{c_total.to_s.rjust(8)} total\n"
 end
 
-if __FILE__ == $PROGRAM_NAME
-  print wc_output
-end
+print wc_output if __FILE__ == $PROGRAM_NAME
