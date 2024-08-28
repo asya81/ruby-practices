@@ -55,4 +55,8 @@ class WcTest < Minitest::Test
   def test_wc_with_ls_with_l_option
     assert_equal "       4      29     178\n", `../../05.ls/lib/ls.rb -l | wc.rb`
   end
+
+  def test_wc_with_pipe_and_option
+    assert_equal "       4      29\n", `ls -l | wc.rb -lw`
+  end
 end
