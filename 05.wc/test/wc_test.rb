@@ -46,6 +46,15 @@ class WcTest < Minitest::Test
     assert_equal expected, `wc.rb ../test/sample.txt ../test/sample2.txt`
   end
 
+  def test_wc_with_two_files_and_options
+    expected = <<-TEXT
+       5       6 ../test/sample.txt
+      20     255 ../test/sample2.txt
+      25     261 total
+    TEXT
+    assert_equal expected, `wc.rb -lw ../test/sample.txt ../test/sample2.txt`
+  end
+
   def test_wc_with_ls_without_options
     # 本来のlsコマンドと繋げた場合の期待値；"       3       3      34\n"
     # 自作lsコマンドと繋げた場合の期待値を指定（本来のものとは差異あり）
@@ -56,7 +65,7 @@ class WcTest < Minitest::Test
     assert_equal "       4      29     178\n", `../../05.ls/lib/ls.rb -l | wc.rb`
   end
 
-  def test_wc_with_pipe_and_option
+  def test_wc_with_pipe_and_options
     assert_equal "       4      29\n", `ls -l | wc.rb -lw`
   end
 end
