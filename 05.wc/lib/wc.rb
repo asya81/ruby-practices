@@ -13,7 +13,7 @@ def wc_output
 
   counts_by_file = read_files
   total_by_file = format_file(wc_options, counts_by_file)
-  total_of_files = format_total(counts_by_file) if counts_by_file.size > 1
+  total_of_files = format_total(wc_options, counts_by_file) if counts_by_file.size > 1
   [total_by_file, total_of_files].join
 end
 
@@ -52,11 +52,13 @@ def selected_option?(params, option)
   params[option] || params.values.all? { |v| v == false }
 end
 
-def format_total(counts)
-  l_total = counts.sum { |count| count[:lines] }
-  w_total = counts.sum { |count| count[:words] }
-  c_total = counts.sum { |count| count[:bytes] }
-  "#{format_as_tab(l_total)}#{format_as_tab(w_total)}#{format_as_tab(c_total)} total\n"
+def format_total(wc_options, counts)
+  output_total = []
+  wc_options.each_key do |key|
+    output_total << format_as_tab(counts.sum { |count| count[key] }) if selected_option?(wc_options, key)
+  end
+  output_total << " total\n"
+  output_total.join
 end
 
 def format_as_tab(num)
