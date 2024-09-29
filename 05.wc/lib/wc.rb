@@ -23,15 +23,16 @@ def read_files
   w = 0
   c = 0
   ARGF.each do |line|
-    l += 1
-    w += line.split.size
-    c += line.bytesize
-    next unless ARGF.file.eof?
-
-    counts << { lines: l, words: w, bytes: c, path: $stdin.tty? ? ARGF.file.path : nil }
-    l = 0
-    w = 0
-    c = 0
+    if ARGF.file.eof?
+      counts << { lines: l, words: w, bytes: c, path: $stdin.tty? ? ARGF.file.path : nil }
+      l = 0
+      w = 0
+      c = 0
+    else
+      l += 1
+      w += line.split.size
+      c += line.bytesize
+    end
   end
   counts
 end
