@@ -49,7 +49,7 @@ def format_file(wc_options, counts)
 end
 
 def selected_option?(params, option)
-  params[option] || params.values.all? { |v| v == false }
+  params[option] || params.values.none?
 end
 
 def format_total(wc_options, counts)
