@@ -54,8 +54,9 @@ end
 
 def format_total(counts, wc_options)
   output_total = []
-  wc_options.each_key do |key|
-    output_total << format_as_tab(counts.sum { |count| count[key] }) if selected_option?(wc_options, key)
+  wc_options.each_key do |option|
+    sum = counts.sum { |count| count[option] }
+    output_total << format_as_tab(sum) if selected_option?(wc_options, option)
   end
   output_total << " total\n"
   output_total.join
