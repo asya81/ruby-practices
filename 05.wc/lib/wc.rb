@@ -12,9 +12,9 @@ def wc_output
   opt.parse!(ARGV)
 
   counts_by_file = read_files
-  total_by_file = format_file(wc_options, counts_by_file)
-  total_of_files = format_total(wc_options, counts_by_file) if counts_by_file.size > 1
-  [total_by_file, total_of_files].join
+  body = format_counts(counts_by_file, wc_options)
+  total = format_total(counts_by_file, wc_options) if counts_by_file.size > 1
+  [body, total].join
 end
 
 def read_files
@@ -36,7 +36,7 @@ def read_files
   counts
 end
 
-def format_file(wc_options, counts)
+def format_counts(counts, wc_options)
   output = []
   counts.each do |count|
     wc_options.each_key do |key|
@@ -52,7 +52,7 @@ def selected_option?(params, option)
   params[option] || params.values.none?
 end
 
-def format_total(wc_options, counts)
+def format_total(counts, wc_options)
   output_total = []
   wc_options.each_key do |key|
     output_total << format_as_tab(counts.sum { |count| count[key] }) if selected_option?(wc_options, key)
