@@ -58,7 +58,7 @@ def format_total(counts, wc_options)
     sum = counts.sum { |count| count[option] }
     output_total << format_as_tab(sum) if selected_option?(wc_options, option)
   end
-  output_total << " total"
+  output_total << ' total'
   output_total.join
 end
 
