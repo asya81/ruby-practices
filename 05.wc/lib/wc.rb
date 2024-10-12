@@ -39,8 +39,8 @@ end
 def format_counts(counts, wc_options)
   output = []
   counts.each do |count|
-    wc_options.each_key do |key|
-      output << format_as_tab(count[key]) if selected_option?(wc_options, key)
+    wc_options.each_key do |option|
+      output << format_as_tab(count[option]) if selected_option?(wc_options, option)
     end
     output << " #{count[:path]}" unless count[:path].nil?
     output << "\n"
