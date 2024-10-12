@@ -58,7 +58,7 @@ def format_total(counts, wc_options)
     sum = counts.sum { |count| count[option] }
     output_total << format_as_tab(sum) if selected_option?(wc_options, option)
   end
-  output_total << " total\n"
+  output_total << " total"
   output_total.join
 end
 
@@ -66,4 +66,4 @@ def format_as_tab(num)
   num.to_s.rjust(8)
 end
 
-print wc_output if __FILE__ == $PROGRAM_NAME
+puts wc_output if __FILE__ == $PROGRAM_NAME
