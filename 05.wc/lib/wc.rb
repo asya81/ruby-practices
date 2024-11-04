@@ -39,9 +39,10 @@ end
 
 def format_counts(counts, wc_options)
   output = []
+  no_options = wc_options.values.none?
   counts.each do |count|
-    wc_options.each_key do |option|
-      output << format_as_tab(count[option]) if selected_option?(wc_options, option)
+    wc_options.each do |key, flag|
+      output << format_as_tab(count[key]) if flag || no_options
     end
     output << " #{count[:path]}" unless count[:path].nil?
     output << "\n"
@@ -55,9 +56,10 @@ end
 
 def format_total(counts, wc_options)
   output_total = []
-  wc_options.each_key do |option|
-    sum = counts.sum { |count| count[option] }
-    output_total << format_as_tab(sum) if selected_option?(wc_options, option)
+  no_options = wc_options.values.none?
+  wc_options.each do |key, flag|
+    sum = counts.sum { |count| count[key] }
+    output_total << format_as_tab(sum) if flag || no_options
   end
   output_total << ' total'
   output_total.join
