@@ -28,7 +28,8 @@ def read_files
     c += line.bytesize
     next unless ARGF.file.eof?
 
-    counts << { lines: l, words: w, bytes: c, path: $stdin.tty? ? ARGF.file.path : nil }
+    path = $stdin.tty? ? ARGF.file.path : nil
+    counts << { lines: l, words: w, bytes: c, path: path }
     l = 0
     w = 0
     c = 0
