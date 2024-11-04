@@ -28,7 +28,7 @@ def read_files
     c += line.bytesize
     next unless ARGF.file.eof?
 
-    path = $stdin.tty? ? ARGF.file.path : nil
+    path = $stdin.tty? ? ARGF.file.path : ''
     counts << { lines: l, words: w, bytes: c, path: path }
     l = 0
     w = 0
@@ -44,7 +44,7 @@ def format_counts(counts, wc_options)
     wc_options.each do |key, flag|
       output << format_as_tab(count[key]) if flag || no_options
     end
-    output << " #{count[:path]}" unless count[:path].nil?
+    output << " #{count[:path]}" unless count[:path].empty?
     output << "\n"
   end
   output.join
