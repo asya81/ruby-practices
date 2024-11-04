@@ -50,10 +50,6 @@ def format_counts(counts, wc_options)
   output.join
 end
 
-def selected_option?(params, option)
-  params[option] || params.values.none?
-end
-
 def format_total(counts, wc_options)
   output_total = []
   no_options = wc_options.values.none?
