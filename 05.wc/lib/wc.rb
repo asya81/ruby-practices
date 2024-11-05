@@ -14,7 +14,7 @@ def wc_output
   counts_by_file = read_files
   body = format_counts(counts_by_file, wc_options)
   total = format_total(counts_by_file, wc_options) if counts_by_file.size > 1
-  [body, total].join
+  [body, total].join("\n")
 end
 
 def read_files
@@ -38,16 +38,17 @@ def read_files
 end
 
 def format_counts(counts, wc_options)
-  output = []
+  rows = []
   no_options = wc_options.values.none?
   counts.each do |count|
+    cols = []
     wc_options.each do |key, flag|
-      output << format_as_tab(count[key]) if flag || no_options
+      cols << format_as_tab(count[key]) if flag || no_options
     end
-    output << " #{count[:path]}" unless count[:path].empty?
-    output << "\n"
+    cols << " #{count[:path]}" unless count[:path].empty?
+    rows << cols.join
   end
-  output.join
+  rows.join("\n")
 end
 
 def format_total(counts, wc_options)
