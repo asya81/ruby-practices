@@ -10,9 +10,10 @@ def wc_output
   opt.on('-w') { |v| wc_options[:words] = v }
   opt.on('-c') { |v| wc_options[:bytes] = v }
   opt.parse!(ARGV)
+  wc_options.transform_values! { true } if wc_options.values.none?
 
   counts_by_file = read_files
-  body = format_counts(counts_by_file, wc_options)
+  body = format_body(counts_by_file, wc_options)
   total = format_total(counts_by_file, wc_options) if counts_by_file.size > 1
   [body, total].join("\n")
 end
@@ -37,29 +38,23 @@ def read_files
   counts
 end
 
-def format_counts(counts, wc_options)
-  rows = []
-  no_options = wc_options.values.none?
-  counts.each do |count|
-    cols = []
-    wc_options.each do |key, flag|
-      cols << format_as_tab(count[key]) if flag || no_options
-    end
-    cols << " #{count[:path]}" unless count[:path].empty?
-    rows << cols.join
+def format_body(counts, wc_options)
+  counts.map do |count|
+    row_data = wc_options.map do |key, flag|
+      format_as_tab(count[key]) if flag
+    end.join
+    row_data << " #{count[:path]}" unless count[:path].empty?
+    row_data
   end
-  rows.join("\n")
 end
 
 def format_total(counts, wc_options)
-  output_total = []
-  no_options = wc_options.values.none?
-  wc_options.each do |key, flag|
+  row_data = wc_options.map do |key, flag|
     sum = counts.sum { |count| count[key] }
-    output_total << format_as_tab(sum) if flag || no_options
-  end
-  output_total << ' total'
-  output_total.join
+    format_as_tab(sum) if flag
+  end.join
+  row_data << ' total'
+  row_data
 end
 
 def format_as_tab(num)
