@@ -40,21 +40,21 @@ end
 
 def format_body(counts, wc_options)
   counts.map do |count|
-    row_data = wc_options.map do |key, flag|
+    row_text = wc_options.map do |key, flag|
       format_as_tab(count[key]) if flag
     end.join
-    row_data << " #{count[:path]}" unless count[:path].empty?
-    row_data
+    row_text << " #{count[:path]}" unless count[:path].empty?
+    row_text
   end
 end
 
 def format_total(counts, wc_options)
-  row_data = wc_options.map do |key, flag|
+  row_text = wc_options.map do |key, flag|
     sum = counts.sum { |count| count[key] }
     format_as_tab(sum) if flag
   end.join
-  row_data << ' total'
-  row_data
+  row_text << ' total'
+  row_text
 end
 
 def format_as_tab(num)
