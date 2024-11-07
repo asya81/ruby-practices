@@ -43,8 +43,7 @@ def format_body(counts, wc_options)
     row_text = wc_options.map do |key, flag|
       format_as_tab(count[key]) if flag
     end.join
-    row_text << " #{count[:path]}" unless count[:path].empty?
-    row_text
+    count[:path].empty? ? row_text : row_text + " #{count[:path]}"
   end
 end
 
@@ -53,8 +52,7 @@ def format_total(counts, wc_options)
     sum = counts.sum { |count| count[key] }
     format_as_tab(sum) if flag
   end.join
-  row_text << ' total'
-  row_text
+  "#{row_text} total"
 end
 
 def format_as_tab(num)
