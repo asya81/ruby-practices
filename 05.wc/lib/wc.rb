@@ -49,8 +49,10 @@ end
 
 def format_total(counts, wc_options)
   row_text = wc_options.map do |key, flag|
+    next unless flag
+
     sum = counts.sum { |count| count[key] }
-    format_as_tab(sum) if flag
+    format_as_tab(sum)
   end.join
   "#{row_text} total"
 end
