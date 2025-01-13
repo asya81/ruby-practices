@@ -38,7 +38,7 @@ def read_files(options)
 end
 
 def append_total(counts)
-  row = Hash.new(0)
+  row = {}
   counts[0].each_key do |option|
     next if option == :path
 
