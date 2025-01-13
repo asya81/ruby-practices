@@ -13,7 +13,7 @@ def output
   options.transform_values! { true } if options.values.none?
 
   counts = read_files(options)
-  append_total(counts) if counts.size > 1
+  counts << total(counts) if counts.size > 1
   puts format_counts(counts)
 end
 
@@ -37,7 +37,7 @@ def read_files(options)
   counts
 end
 
-def append_total(counts)
+def total(counts)
   row = {}
   counts[0].each_key do |option|
     next if option == :path
@@ -45,7 +45,7 @@ def append_total(counts)
     row[option] = counts.sum { |count| count[option] }
   end
   row[:path] = 'total'
-  counts << row
+  row
 end
 
 def format_counts(counts)
