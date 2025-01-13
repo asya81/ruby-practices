@@ -52,20 +52,12 @@ def format_counts(counts)
   counts.map do |count|
     count.map do |option, value|
       if option == :path
-        format_path(value)
+        value.empty? ? '' : " #{value}"
       else
-        format_num(value)
+        value.to_s.rjust(8)
       end
     end.join
   end
-end
-
-def format_num(num)
-  num.to_s.rjust(8)
-end
-
-def format_path(path)
-  path.empty? ? '' : " #{path}"
 end
 
 output if __FILE__ == $PROGRAM_NAME
