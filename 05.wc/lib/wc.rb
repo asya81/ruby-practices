@@ -20,13 +20,10 @@ end
 def read_files(options)
   counts = []
   row = Hash.new(0)
-  l_option = options[:lines]
-  w_option = options[:words]
-  c_option = options[:bytes]
   ARGF.each do |line|
-    row[:l] += 1 if l_option
-    row[:w] += line.split.size if w_option
-    row[:c] += line.bytesize if c_option
+    row[:l] += 1 if options[:lines]
+    row[:w] += line.split.size if options[:words]
+    row[:c] += line.bytesize if options[:bytes]
     next unless ARGF.file.eof?
 
     path = $stdin.tty? ? ARGF.file.path : ''
