@@ -3,18 +3,18 @@
 
 require 'optparse'
 
-def wc_output
+def output
   opt = OptionParser.new
-  wc_options = { lines: false, words: false, bytes: false }
-  opt.on('-l') { |v| wc_options[:lines] = v }
-  opt.on('-w') { |v| wc_options[:words] = v }
-  opt.on('-c') { |v| wc_options[:bytes] = v }
+  options = { lines: false, words: false, bytes: false }
+  opt.on('-l') { |v| options[:lines] = v }
+  opt.on('-w') { |v| options[:words] = v }
+  opt.on('-c') { |v| options[:bytes] = v }
   opt.parse!(ARGV)
-  wc_options.transform_values! { true } if wc_options.values.none?
+  options.transform_values! { true } if options.values.none?
 
-  counts = read_files(wc_options)
+  counts = read_files(options)
   append_total(counts) if counts.size > 1
-  format_counts(counts)
+  puts format_counts(counts)
 end
 
 def read_files(options)
@@ -38,14 +38,14 @@ def read_files(options)
 end
 
 def append_total(counts)
-  total_row = Hash.new(0)
+  row = Hash.new(0)
   counts[0].each_key do |option|
     next if option == :path
 
-    total_row[option] = counts.sum { |count| count[option] }
+    row[option] = counts.sum { |count| count[option] }
   end
-  total_row[:path] = 'total'
-  counts << total_row
+  row[:path] = 'total'
+  counts << row
 end
 
 def format_counts(counts)
@@ -68,4 +68,4 @@ def format_path(path)
   path.empty? ? '' : " #{path}"
 end
 
-puts wc_output if __FILE__ == $PROGRAM_NAME
+output if __FILE__ == $PROGRAM_NAME
