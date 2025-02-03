@@ -12,18 +12,18 @@ def output
   opt.parse!(ARGV)
   options.transform_values! { true } if options.values.none?
 
-  counts = read_files(options)
+  counts = read_files
   counts << total(counts) if counts.size > 1
-  puts format_counts(counts)
+  puts format_counts(counts, options)
 end
 
-def read_files(options)
+def read_files
   counts = []
   row = Hash.new(0)
   ARGF.each do |line|
-    row[:l] += 1 if options[:lines]
-    row[:w] += line.split.size if options[:words]
-    row[:c] += line.bytesize if options[:bytes]
+    row[:lines] += 1
+    row[:words] += line.split.size
+    row[:bytes] += line.bytesize
     next unless ARGF.file.eof?
 
     path = $stdin.tty? ? ARGF.file.path : ''
@@ -36,22 +36,20 @@ end
 
 def total(counts)
   row = {}
-  counts[0].each_key do |option|
-    next if option == :path
-
-    row[option] = counts.sum { |count| count[option] }
-  end
+  row[:lines] = counts.sum { |count| count[:lines] }
+  row[:words] = counts.sum { |count| count[:words] }
+  row[:bytes] = counts.sum { |count| count[:bytes] }
   row[:path] = 'total'
   row
 end
 
-def format_counts(counts)
+def format_counts(counts, options)
   counts.map do |count|
     count.map do |option, value|
       if option == :path
         value.empty? ? '' : " #{value}"
       else
-        value.to_s.rjust(8)
+        options[option] ? value.to_s.rjust(8) : ''
       end
     end.join
   end
