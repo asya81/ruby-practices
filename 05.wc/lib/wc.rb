@@ -35,12 +35,12 @@ def read_files
 end
 
 def total(counts)
-  row = {}
-  row[:lines] = counts.sum { |count| count[:lines] }
-  row[:words] = counts.sum { |count| count[:words] }
-  row[:bytes] = counts.sum { |count| count[:bytes] }
-  row[:path] = 'total'
-  row
+  {
+    lines: counts.sum { |count| count[:lines] },
+    words: counts.sum { |count| count[:words] },
+    bytes: counts.sum { |count| count[:bytes] },
+    path: 'total'
+  }
 end
 
 def format_counts(counts, options)
