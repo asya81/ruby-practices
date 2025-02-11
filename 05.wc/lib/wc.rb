@@ -45,13 +45,13 @@ end
 
 def format_counts(counts, options)
   counts.map do |count|
-    count.map do |option, value|
-      if option == :path
-        value.empty? ? '' : " #{value}"
-      else
-        options[option] ? value.to_s.rjust(8) : ''
-      end
-    end.join
+    line = []
+    options.each do |option, flg|
+      line << count[option].to_s.rjust(8) if flg
+    end
+    path = count[:path].empty? ? '' : " #{count[:path]}"
+    line << path
+    line.join
   end
 end
 
