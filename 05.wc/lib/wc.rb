@@ -13,7 +13,7 @@ def output
   options.transform_values! { true } if options.values.none?
 
   counts = read_files
-  counts << total(counts) if counts.size > 1
+  counts << calc_total(counts) if counts.size > 1
   puts format_counts(counts, options)
 end
 
@@ -34,7 +34,7 @@ def read_files
   counts
 end
 
-def total(counts)
+def calc_total(counts)
   {
     lines: counts.sum { |count| count[:lines] },
     words: counts.sum { |count| count[:words] },
