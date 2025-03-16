@@ -3,7 +3,7 @@
 
 require 'optparse'
 
-def output
+def execute
   options = get_options
   counts = read_files
   counts << calc_total(counts) if counts.size > 1
@@ -58,4 +58,4 @@ def format_counts(counts, options)
   end
 end
 
-output if __FILE__ == $PROGRAM_NAME
+execute if __FILE__ == $PROGRAM_NAME
