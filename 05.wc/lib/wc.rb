@@ -45,8 +45,8 @@ end
 
 def format_counts(counts, options)
   counts.map do |count|
-    cols = options.filter_map do |option, flg|
-      count[option].to_s.rjust(8) if flg
+    cols = %i[lines words bytes].filter_map do |key|
+      count[key].to_s.rjust(8) if options[key]
     end
     path = count[:path].empty? ? '' : " #{count[:path]}"
     cols << path
