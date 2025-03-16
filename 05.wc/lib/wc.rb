@@ -4,13 +4,13 @@
 require 'optparse'
 
 def execute
-  options = get_options
+  options = parse_options
   counts = read_files
   counts << calc_total(counts) if counts.size > 1
   puts format_counts(counts, options)
 end
 
-def get_options
+def parse_options
   opt = OptionParser.new
   options = { lines: false, words: false, bytes: false }
   opt.on('-l') { |v| options[:lines] = v }
